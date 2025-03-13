@@ -1,0 +1,56 @@
+<#
+Script Name: DisableStickyKeys-Detection.ps1
+Version: 1
+
+Description: This is a detection script used with remediations to detect whether Sticky Keys is enabled for the current user.
+If it is enabled, the script exits with an exit code of 1 to trigger Intune to run the remediation script and disable it.
+This should be run in user context.
+
+The script is provided "AS IS" with no warranties.
+#>
+
+#------------------------------------ Set Variables -------------------------------------#
+
+$logfile = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\DisableStickyKeys-Detection.log"
+$Key = "HKCU:\Control Panel\Accessibility\StickyKeys"
+$ValueName = "Flags"
+$ExpectedValue = "506"
+#This sets Sticky Keys to a disabled state.
+
+#------------------------------------ Start log file ------------------------------------#
+
+Start-Transcript -Path $logfile
+function WriteLog
+{
+Param ([string]$LogString)
+
+$DateTime = "[{0:dd/MM/yy} {0:HH:mm:ss}]" -f (Get-Date)
+$LogMessage = "$Datetime $LogString"
+
+Write-host $LogMessage
+}
+
+#------------------------------ Detect Sticky Keys Status ----------------------------------#
+
+$matchFound = $false
+
+# Check for existence of registry key and specific value
+if (Test-Path $key) {
+   $value = Get-ItemProperty -Path $key -Name $valueName -ErrorAction SilentlyContinue
+   if ($null -ne $value -and $value.$valueName -eq $expectedValue) {
+      Writelog "Registry key $key with value $valueName=$expectedValue found."
+      $matchFound = $true
+      }
+}
+
+# Exit script if a match is found
+if ($matchFound -eq $false) {
+    Writelog ("Value $valueName=$expectedValue does not exist, proceeding with script to set value")
+    Stop-Transcript
+    exit 1
+}
+if ($matchFound -eq $true) {
+    Writelog ("Match Found, exiting script")
+    Stop-Transcript
+    exit 0
+}
