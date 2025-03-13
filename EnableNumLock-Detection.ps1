@@ -1,4 +1,4 @@
-﻿logfile<#
+﻿<#
 Script Name: EnableNumLock-Detection.ps1
 Version: 1
 
