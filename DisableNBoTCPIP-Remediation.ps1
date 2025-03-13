@@ -45,11 +45,11 @@ foreach ($Interface in $Interfaces) {
     if (Test-Path $InterfacePath) {
         $value = Get-ItemProperty -Path $InterfacePath -Name $valueName -ErrorAction SilentlyContinue
         if ($value.valueName -eq $NewValue) {
-        Write-Host "$ValueName at $interfacePath is set to $NewValue as required."
+        writelog "$ValueName at $interfacePath is set to $NewValue as required."
         }
         else {
         New-ItemProperty -Path $InterfacePath -Name $ValueName -Value $NewValue -PropertyType DWORD -Force
-        Write-Host "$ValueName on $Interface has been changed to $NewValue"
+        writelog "$ValueName on $Interface has been changed to $NewValue"
         }
       }
     }
