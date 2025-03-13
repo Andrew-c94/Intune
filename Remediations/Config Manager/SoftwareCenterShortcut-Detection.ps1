@@ -1,6 +1,6 @@
 ﻿<#
 Script Name: SoftwareCenterShortcut-Detection.ps1
-Version: 2
+Author: Andrew Currell (GIT:@Andrew-c94)
 
 Description: This is a detection script used with remediations to detect whether the shortcut for MECM Software Center is visible in the start menu.
 If it is, the script exits with an exit code of 1 to trigger Intune to continue with the remediation script.

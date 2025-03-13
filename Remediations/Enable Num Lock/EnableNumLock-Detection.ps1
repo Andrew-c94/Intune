@@ -1,6 +1,6 @@
 ﻿<#
 Script Name: EnableNumLock-Detection.ps1
-Version: 1
+Author: Andrew Currell (GIT:@Andrew-c94)
 
 Description: This is a detection script used with remediations to detect whether Num Lock is enabled for the current user.
 If it is disabled, the script exits with an exit code of 1 to trigger Intune to run the remediation script and enable it.

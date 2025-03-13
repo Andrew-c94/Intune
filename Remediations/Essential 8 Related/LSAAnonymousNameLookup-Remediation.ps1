@@ -1,6 +1,6 @@
 ﻿<#
 Script Name: LSAAnonymousNameLookup-Remediation.ps1
-Version: 1
+Author: Andrew Currell (GIT:@Andrew-c94)
 
 Description: This is a remediation script used with remediations which disables the 'Network access: Allow anonymous SID/Name translation'
 security policy setting.

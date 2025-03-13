@@ -1,6 +1,6 @@
 <#
 Script Name: OutlookNew-Detection.ps1
-Script Version: 1
+Author: Andrew Currell (GIT:@Andrew-c94)
 
 Description: This detection checks if Outlook (New) is present on a device. 
 If its found it triggers the associated remediation to run.

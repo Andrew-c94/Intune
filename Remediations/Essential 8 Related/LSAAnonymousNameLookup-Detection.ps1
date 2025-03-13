@@ -1,6 +1,6 @@
 ﻿<#
 Script Name: LSAAnonymousNameLookup-Detection.ps1
-Version: 1
+Author: Andrew Currell (GIT:@Andrew-c94)
 
 Description: This is a detection script used with remediations to detect whether the 'Network access: Allow anonymous SID/Name translation'
 security policy is set to disabled.

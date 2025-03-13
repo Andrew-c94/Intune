@@ -1,6 +1,6 @@
 <#
 Script Name: DeviceRename-Detection.ps1
-Version: 1
+Author: Andrew Currell (GIT:@Andrew-c94)
 
 Description: This is a detection script used with remediations to detect whether the device's current name matches <Client> naming standard.
 If it does not, the script exits with an exit code of 1 to trigger Intune to continue with the remediation script.

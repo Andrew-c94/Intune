@@ -1,6 +1,6 @@
 <#
 Script Name: AppxRemoval-Remediation.ps1
-Script Version: 1
+Author: Andrew Currell (GIT:@Andrew-c94)
 
 Description: This remediation removes unwanted pre-installed Appx packages from Windows devices.
 

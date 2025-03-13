@@ -1,6 +1,6 @@
 <#
 Script Name: EnableSystemRestore-Remediation.ps1
-Version: 1
+Author: Andrew Currell (GIT:@Andrew-c94)
 
 Description: This is a remediation script used with remediations which enables system restore on devices if it is disabled.
 

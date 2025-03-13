@@ -1,6 +1,6 @@
 <#
 Script Name: OutlookNew-Remediation.ps1
-Script Version: 1
+Author: Andrew Currell (GIT:@Andrew-c94)
 
 Description: This remediation removes Outlook (New) from Windows devices.
 

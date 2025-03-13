@@ -2,7 +2,7 @@
 Script Name: DeviceRename-Remediation.ps1
 Source Script Version: 1.3
 Source Script Author: Michael Niehaus
-Remediation Version: 1
+Author: Andrew Currell (GIT:@Andrew-c94)
 
 Description: This is a remediation script used with remediations to detect whether the device's current name matches <Client> naming standard.
 If it does not, the script initiates the device renaming process using pre-defined logic. It will also check for Active Directory connectivity 

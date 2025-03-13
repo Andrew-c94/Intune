@@ -1,6 +1,5 @@
 <#
 Script Name: AppxRemoval-Detection.ps1
-Script Version: 1
 Author: Andrew Currell (GIT:@Andrew-c94)
 
 Description: This detection checks if any unwanted pre-installed Appx packages are present on a device. 

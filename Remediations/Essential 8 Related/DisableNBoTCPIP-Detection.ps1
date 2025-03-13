@@ -1,6 +1,6 @@
 ﻿<#
 Script Name: DisableNBoTCPIP-Detection.ps1
-Remediation Version: 1
+Author: Andrew Currell (GIT:@Andrew-c94)
 
 Description: This detection script checks all network interfaces present on the client and if it finds any with NetBIOS over TCP/IP enabled it triggers the remediation script to run.
 

@@ -1,6 +1,6 @@
 ﻿<#
 Script Name: SoftwareCenterShortcut-Remediation.ps1
-Version: 2
+Author: Andrew Currell (GIT:@Andrew-c94)
 
 Description: This is a remediation script used with remediations to hide the Software Center shortcut from the start menu.
 

@@ -1,6 +1,6 @@
 ﻿<#
 Script Name: EnableNumLock-Remediation.ps1
-Version: 1
+Author: Andrew Currell (GIT:@Andrew-c94)
 
 Description: This is a remediation script used with remediations to enable numb lock by default for all users.
 
