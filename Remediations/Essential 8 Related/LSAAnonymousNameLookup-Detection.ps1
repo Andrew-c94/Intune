@@ -12,8 +12,7 @@ The script is provided "AS IS" with no warranties.
 #------------------------------------ Set Variables -------------------------------------#
 
 $logfile = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\LSAAnonymousNameLookup-Detection.log"
-$secpolicy = secedit /export /cfg $env:temp/secexport.cfg
-$LSAAnonymousNameLookupStatus = $(gc $env:temp/secexport.cfg | Select-String "LSAAnonymousNameLookup").ToString().Split('=')[1].Trim()
+$LSAAnonymousNameLookupStatus = $(Get-Content $env:temp/secexport.cfg | Select-String "LSAAnonymousNameLookup").ToString().Split('=')[1].Trim()
 $LSAAnonymousNameLookupValue = "0"
 #This sets the 'Network access: Allow anonymous SID/Name translation' policy setting is disabled.
 
@@ -33,6 +32,9 @@ write-host $LogMessage
 #----------------------------------- Check LSA Status ---------------------------------------#
 
 $matchFound = $false
+
+#Export Security Policy
+secedit /export /cfg $env:temp/secexport.cfg
 
 # Check for existence of the policy setting in the local security policy and specific value
 if ($null -ne $LSAAnonymousNameLookupStatus -and $LSAAnonymousNameLookupStatus -eq $LSAAnonymousNameLookupValue) {

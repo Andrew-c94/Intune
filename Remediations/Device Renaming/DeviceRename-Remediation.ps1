@@ -50,7 +50,6 @@ if (($DeviceNamePrefix -ne "") -and (-not $details.CsName.StartsWith($DeviceName
 
 WriteLog "Checking device join type."
 $isAD = $false
-$isAAD = $false
 $tenantID = $null
 if ($details.CsPartOfDomain) {
     WriteLog "Device is joined to AD domain: $($details.CsDomain)."
@@ -68,7 +67,6 @@ if ($details.CsPartOfDomain) {
     }
     if ($null -ne $tenantID) {
         WriteLog "Device is joined to Entra tenant: $tenantID."
-        $isAAD = $true
     } else {
         WriteLog "Not part of a Entra or AD, in a workgroup."
     }
