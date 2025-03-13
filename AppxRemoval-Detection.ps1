@@ -11,48 +11,58 @@ The script is provided "AS IS" with no warranties.
 #------------------------------------ Set Variables -------------------------------------#
 
 $ErrorActionPreference = 'silentlycontinue'
+$logfile = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\AppxRemoval-Detection.log"
 $UninstallAppxList = @(
-    "Microsoft.GetHelp"
-    "Microsoft.Getstarted"
-    "Microsoft.WindowsFeedbackHub"
+    "Microsoft.BingWeather"
     "Microsoft.MicrosoftSolitaireCollection"
+    "Microsoft.Office.Onenote"
+    "Microsoft.People"
+    "Microsoft.WindowsFeedbackHub"
     "Microsoft.Xbox.TCUI"
     "Microsoft.XboxGameOverlay"
     "Microsoft.GamingApp"
     "Microsoft.XboxSpeechToTextOverlay"
-    "Microsoft.XboxIdentityProvider"
     "Microsoft.XboxGamingOverlay"
-    "Microsoft.MicrosoftOfficeHub"
+    "Microsoft.XboxIdentityProvider"
+    "Microsoft.ZuneMusic"
+    "Microsoft.ZuneVideo"
 )
 
 #------------------------------------ Start log file ------------------------------------#
 
-Start-Transcript -Path "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\AppxRemoval-Detection.log"
+Start-Transcript -Path $logfile
+function WriteLog
+{
+Param ([string]$LogString)
+
+$DateTime = "[{0:dd/MM/yy} {0:HH:mm:ss}]" -f (Get-Date)
+$LogMessage = "$Datetime $LogString"
+
+Write-host $LogMessage
+}
 
 #-------------------------------- Detect Appx Packages ----------------------------------#
 
     foreach ($app in $UninstallAppxList) {
 
         if (Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $app -ErrorAction SilentlyContinue) {
-            Write-Host "Provisioned Appx package for $app found. Continuing to remediation."
+            WriteLog "Provisioned Appx package for $app found. Continuing to remediation."
             Stop-Transcript
             Exit 1
             }
         else {
-            write-host "No Provisioned Appx package found for $app."
+            WriteLog "No Provisioned Appx package found for $app."
         }
-
         if (Get-AppxPackage -allusers -Name $app -ErrorAction SilentlyContinue) {
-            Write-Host "Appx package for $app found. Continuing to remediation."
+            WriteLog "Appx package for $app found. Continuing to remediation."
             Stop-Transcript
             Exit 1
             }
         else {
-            write-host "No Appx package found for $app."
+            WriteLog "No Appx package found for $app."
         }
-
     }
 
-write-host ("No unwanted Appx packages detected.")
+WriteLog ("No unwanted Appx packages detected.")
 Stop-Transcript
 Exit 0
