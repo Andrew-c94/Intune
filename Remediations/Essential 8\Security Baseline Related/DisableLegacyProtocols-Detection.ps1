@@ -89,11 +89,11 @@ ForEach ($Setting in $ExpectedDisableLegacyProtocolSettings)
         $Value = Get-ItemProperty -Path $Key -Name $Name -ErrorAction SilentlyContinue
         if ($Value.$Name -eq $ExpectedValue)
         {
-            WriteLog "Registry setting $Name is already set to $ExpectedValue as expected."
+            WriteLog "Registry setting $Name at $Key is already set to $ExpectedValue as expected."
         }
         else
         {
-            WriteLog "Registry setting $Name is not set to $ExpectedValue, continuing to Remediation."
+            WriteLog "Registry setting $Name at $Key is not set to $ExpectedValue, continuing to Remediation."
             Stop-Transcript
             Exit 1
         }

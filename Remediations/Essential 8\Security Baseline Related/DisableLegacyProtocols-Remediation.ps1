@@ -76,35 +76,41 @@ $LogMessage = "$Datetime $LogString"
 write-host $LogMessage
 }
 
-#---------------------------- Check SSL3.0 and RC4 Settings -------------------------------#
+#------------------------------ Disable Legacy Protocols ----------------------------------#
 
-ForEach ($Setting in $RequiredDisableLegacyProtocolSettings)
-{
-    $Key = $Setting.Key
-    $Name = $Setting.Name
-    $RequiredValue = $Setting.RequiredValue
-
-    if (Test-Path $Key)
+# Set each registry key to the specified value
+Try{
+    ForEach ($Setting in $RequiredDisableLegacyProtocolSettings)
     {
+        $Key = $Setting.Key
+        $Name = $Setting.Name
+        $RequiredValue = $Setting.RequiredValue
+    
+        if (-NOT (Test-Path $Key)) {
+        WriteLog "Registry path doesnt currently exist, creating $Key."    
+        New-Item -Path $Key -Force | Out-Null
+        WriteLog "New path created successfully."
+        }
+        
         $Value = Get-ItemProperty -Path $Key -Name $Name -ErrorAction SilentlyContinue
         if ($Value.$Name -eq $RequiredValue)
         {
-            WriteLog "Registry setting $Name is already set to $RequiredValue as Required."
+            WriteLog "Registry setting $Name at $Key is already set to $RequiredValue as expected."
         }
         else
         {
-            WriteLog "Registry setting $Name is not set to $RequiredValue, continuing to Remediation."
-            Stop-Transcript
-            Exit 1
+            New-ItemProperty -Path $Key -Name $Name -Value $RequiredValue -PropertyType DWORD -Force
+            Writelog "$Name at $Key has been set to $RequiredValue successfully."
         }
     }
-    else {
-        WriteLog "Registry key $Key does not exist, continuing to Remediation."
-        Stop-Transcript
-        Exit 1
-    }
 }
+catch {
+    $errMsg = $_.Exception.Message
+    WriteLog "An error has occured. ERROR:'$errMsg'. Exiting Script."
+    Stop-Transcript
+    Exit 1
+    }
 
-WriteLog ("All legacy protocol settings are set correctly, exiting script.")
+WriteLog "All Registry values have been set successfully, exiting script."
 Stop-Transcript
 Exit 0
