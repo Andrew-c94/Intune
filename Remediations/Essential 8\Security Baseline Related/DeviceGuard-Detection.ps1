@@ -3,7 +3,7 @@ Script Name: DeviceGuard-Detection.ps1
 Author: Andrew Currell (GIT:@Andrew-c94)
 
 Description: This is a detection script used with remediations to detect whether the Kernel-mode Hardware-enforced Stack Protection
-aetting within Device Guard that is not currently available in the Intune Settings Catalog is enabled.
+setting within Device Guard that is not currently available in the Intune Settings Catalog is enabled.
 If it is not set correctly, the script exits with an exit code of 1 to trigger Intune to continue with the remediation script.
 
 Note: Kernel-mode Hardware-enforced Stack Protection is only available on Windows 11 22H2 and later and requires compatible
