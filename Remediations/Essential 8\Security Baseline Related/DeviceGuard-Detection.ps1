@@ -1,5 +1,5 @@
 <#
-Script Name: EnableKernelShadowStacksLaunch-Detection.ps1
+Script Name: DeviceGuard-Detection.ps1
 Author: Andrew Currell (GIT:@Andrew-c94)
 
 Description: This is a detection script used with remediations to detect whether the Kernel-mode Hardware-enforced Stack Protection
@@ -14,7 +14,7 @@ The script is provided "AS IS" with no warranties.
 
 #------------------------------------ Set Variables -------------------------------------#
 
-$logfile = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\EnableKernelShadowStacksLaunch-Detection.log"
+$logfile = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\DeviceGuard-Detection.log"
 $ExpectedDeviceGuardSettings = @(
     @{
     Key = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard"
