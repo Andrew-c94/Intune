@@ -2,9 +2,8 @@
 Script Name: LanmanServerSettings-Remediation.ps1
 Author: Andrew Currell (GIT:@Andrew-c94)
 
-Description: This is a detection script used with remediations to detect whether the LanmanServer Settings that are
-not currently available in the Intune Settings Catalog are set correctly.
-If any settings are not set correctly, the script exits with an exit code of 1 to trigger Intune to continue with the remediation script.
+Description: This is a remediation script used with remediations to set Lanman Server Settings that are not
+currently available in the Intune settings catalog.
 
 The script is provided "AS IS" with no warranties.
 #>

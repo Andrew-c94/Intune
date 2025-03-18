@@ -1,40 +1,25 @@
 <#
-Script Name: LanmanWorkstationSettings-Remediation.ps1
+Script Name: DeviceGuard-Remediation.ps1
 Author: Andrew Currell (GIT:@Andrew-c94)
 
-Description: This is a remediation script used with remediations to set Lanman Workstation Settings that are not
+Description: This is a remediation script used with remediations to set Device Guard Settings that are not
 currently available in the Intune settings catalog.
+
+Note: Kernel-mode Hardware-enforced Stack Protection is only available on Windows 11 22H2 and later and requires compatible
+hardware to be enabled.
 
 The script is provided "AS IS" with no warranties.
 #>
 
 #------------------------------------ Set Variables -------------------------------------#
 
-$logfile = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\LanmanWorkstationSettings-Remediation.log"
-$RequiredLanmanWorkstationSettings = @(
+$logfile = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\DeviceGuard-Remediation.log"
+$RequiredDeviceGuardSettings = @(
     @{
-    Key = "HKLM:\Software\Policies\Microsoft\Windows\NetworkProvider"
-    Name = "EnableMailslots"
-    RequiredValue = ""
-    # Sets the 'Enable remote mailslots' setting to disabled
-    },
-    @{
-    Key = "HKLM:\Software\Policies\Microsoft\Windows\LanmanWorkstation"
-    Name = "RequireEncryption"
-    RequiredValue = "0"
-    # Sets the 'Require Encryption' setting to disabled
-    },
-    @{
-    Key = "HKLM:\Software\Policies\Microsoft\Windows\LanmanWorkstation"
-    Name = "MinSmb2Dialect"
-    RequiredValue = "768"
-    # Sets the 'Mandate the minimum version of SMB' setting to SMB 3.0.0
-    },
-    @{
-    Key = "HKLM:\Software\Policies\Microsoft\Windows\LanmanWorkstation"
-    Name = "MaxSmb2Dialect"
-    RequiredValue = "785"
-    # Sets the 'Mandate the maximum version of SMB' setting to SMB 3.1.1
+    Key = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeviceGuard"
+    Name = "ConfigureKernelShadowStacksLaunch"
+    RequiredValue = "1"
+    # Sets the 'Kernel-mode Hardware-enforced Stack Protection' setting to enabled
     }
 )
 $ErrorActionPreference = "Stop"
@@ -52,11 +37,11 @@ $LogMessage = "$Datetime $LogString"
 write-host $LogMessage
 }
 
-#---------------------------- Set LanmanWorkstation Settings --------------------------------#
+#------------------------------ Set DeviceGuard Settings ----------------------------------#
 
 # Set each registry key to the specified value
 Try{
-    ForEach ($Setting in $RequiredLanmanWorkstationSettings)
+    ForEach ($Setting in $RequiredDeviceGuardSettings)
     {
         $Key = $Setting.Key
         $Name = $Setting.Name
