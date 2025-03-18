@@ -23,19 +23,19 @@ $ExpectedLanmanServerSettings = @(
     Key = "HKLM:\Software\Policies\Microsoft\Windows\LanmanServer"
     Name = "InvalidAuthenticationDelayTimeInMs"
     ExpectedValue = "2000"
-    # Checks if the 'Set authentication rate limiter delay' is set to 2000 milliseconds
+    # Checks if the 'Set authentication rate limiter delay' setting is set to 2000 milliseconds
     },
     @{
     Key = "HKLM:\Software\Policies\Microsoft\Windows\LanmanServer"
     Name = "MinSmb2Dialect"
     ExpectedValue = "768"
-    # Checks if the 'Mandate the minimum version of SMB' is set to SMB 3.0.0
+    # Checks if the 'Mandate the minimum version of SMB' setting is set to SMB 3.0.0
     },
     @{
     Key = "HKLM:\Software\Policies\Microsoft\Windows\LanmanServer"
     Name = "MaxSmb2Dialect"
     ExpectedValue = "785"
-    # Checks if the 'Mandate the maximum version of SMB' is set to SMB 3.1.1
+    # Checks if the 'Mandate the maximum version of SMB' setting is set to SMB 3.1.1
     }
 )
 
