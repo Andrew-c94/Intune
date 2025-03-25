@@ -11,7 +11,7 @@ The script is provided "AS IS" with no warranties.
 #------------------------------------ Set Variables -------------------------------------#
 
 $logfile = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\EnableNumLock-Detection.log"
-$Key = "HKEY_USERS\.DEFAULT\Control Panel\Keyboard"
+$Key = "Registry::HKEY_USERS\.DEFAULT\Control Panel\Keyboard"
 $ValueName = "InitialKeyboardIndicators"
 $ExpectedValue = "2"
 #This sets Num Lock to enabled state.
