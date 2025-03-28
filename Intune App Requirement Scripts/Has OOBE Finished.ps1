@@ -16,7 +16,7 @@ namespace Api
 "@
  
 Add-Type -TypeDefinition $TypeDef -Language CSharp
- 
+$IsOOBEComplete = $False
 $hr = [Api.Kernel32]::OOBEComplete([ref] $IsOOBEComplete)
  
 If ($IsOOBEComplete) {
