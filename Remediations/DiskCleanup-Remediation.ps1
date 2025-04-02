@@ -129,7 +129,7 @@ Function Get-RecycleBin {
     }
 }
 
-Function Clean-Path {
+Function Remove-Path {
     [CmdletBinding()]
     Param (
         [Parameter(Mandatory=$true)]
@@ -143,7 +143,7 @@ Function Clean-Path {
             If (Test-Path $Using:Path) {
                 Foreach ($Item in $(Get-ChildItem -Path $Using:Path -Recurse)) {
                     Try {
-                        Remove-item -Path $item.FullName -Confirm:$false -Recurse -ErrorAction Stop
+                        Remove-item -Path $item.FullName -Confirm:$false -Recurse -ErrorAction SilentlyContinue
                     } Catch {
                         if ($global:EnableVerbose) {
                             Write-Verbose "$($Item.path) - $($_.Exception.Message)"
@@ -156,7 +156,7 @@ Function Clean-Path {
         If (Test-Path $Path) {
             Foreach ($Item in $(Get-ChildItem -Path $Path -Recurse)) {
                 Try {
-                    Remove-item -Path $item.FullName -Confirm:$false -Recurse -ErrorAction Stop
+                    Remove-item -Path $item.FullName -Confirm:$false -Recurse -ErrorAction SilentlyContinue
                 } Catch {
                     if ($global:EnableVerbose) {
                         Write-Verbose "$($Item.path) - $($_.Exception.Message)"
@@ -218,7 +218,7 @@ Function Get-ComputerName {
         Write-Host "Please enter the computer name to connect to or just hit enter for localhost" -ForegroundColor Yellow
         $ComputerName = Read-Host
 
-        if ($ComputerName -eq '' -or $ComputerName -eq $null) {
+        if ($ComputerName -eq '' -or $null -eq $ComputerName) {
             $obj = New-Object PSObject -Property @{
                 ComputerName = $env:COMPUTERNAME
                 Remote = $false
@@ -254,7 +254,7 @@ Function Test-PSRemoting {
     Write-output $ComputerOBJ
 }
 
-Function Run-CleanMGR {
+Function start-cleanmgr {
     [CmdletBinding()]
     Param (
         [Parameter(Mandatory=$true)]
@@ -275,8 +275,8 @@ Function Run-CleanMGR {
                     Set-ItemProperty -Path $($Base + $Location) -Name $SageSet -Type DWORD -Value 2 -ea SilentlyContinue | Out-Null
                 }
                 # Convert the Sageset number previously defined and run the Disk Cleanup process with configured parameters.
-                $Args = "/sagerun:$([string]([int]$SageSet.Substring($SageSet.Length - 4)))"
-                Start-Process -Wait "$env:SystemRoot\System32\cleanmgr.exe" -ArgumentList $Args -WindowStyle Hidden
+                $Parameters = "/sagerun:$([string]([int]$SageSet.Substring($SageSet.Length - 4)))"
+                Start-Process -Wait "$env:SystemRoot\System32\cleanmgr.exe" -ArgumentList $Parameters -WindowStyle Hidden
                 # Set Sageset99/Stateflag0099 reg keys back to 1 for a blank slate.
                 foreach ($VC in $VolCaches) {
                     New-ItemProperty -Path "$($VC.PSPath)" -Name $StateFlags -Value 1 -Type DWORD -Force | Out-Null
@@ -309,8 +309,8 @@ Function Run-CleanMGR {
                 Set-ItemProperty -Path $($Base + $Location) -Name $SageSet -Type DWORD -Value 2 -ea SilentlyContinue | Out-Null
             }
             # Convert the Sageset number previously defined and run the Disk Cleanup process with configured parameters.
-            $Args = "/sagerun:$([string]([int]$SageSet.Substring($SageSet.Length - 4)))"
-            Start-Process -Wait "$env:SystemRoot\System32\cleanmgr.exe" -ArgumentList $Args -WindowStyle Hidden
+            $Parameters = "/sagerun:$([string]([int]$SageSet.Substring($SageSet.Length - 4)))"
+            Start-Process -Wait "$env:SystemRoot\System32\cleanmgr.exe" -ArgumentList $Parameters -WindowStyle Hidden
             # Set Sageset99/Stateflag0099 reg keys back to 1 for a blank slate.
             foreach ($VC in $VolCaches) {
                 New-ItemProperty -Path "$($VC.PSPath)" -Name $StateFlags -Value 1 -Type DWORD -Force | Out-Null
@@ -327,7 +327,7 @@ Function Run-CleanMGR {
     }
 }
 
-Function Erase-IExplorerHistory {
+Function Remove-IExplorerHistory {
     [CmdletBinding()]
     Param (
         [Parameter(Mandatory=$true)]
@@ -363,7 +363,7 @@ Function Erase-IExplorerHistory {
     }
 }
 
-Function Run-DISM {
+Function Start-DISM {
     [CmdletBinding()]
     Param (
         [Parameter(Mandatory=$true)]
@@ -489,50 +489,50 @@ Write-Host ""
 
 Write-Host "Cleaning temp directories" -ForegroundColor Yellow
 
-#Clean-Path -Path 'C:\Temp\*' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
-Clean-Path -Path 'C:\Windows\Temp\*' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
-Clean-Path -Path 'C:\Windows\*.dmp' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
-Clean-Path -Path 'C:\Windows\Debug\*.log' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
-Clean-Path -Path 'C:\Windows\security\logs\*.log' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
-Clean-Path -Path 'C:\Windows\Logs\CBS\*.log' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
-Clean-Path -Path 'C:\Windows\Logs\DISM\*.log' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
-Clean-Path -Path 'C:\Windows\Logs\DPX\*.log' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
-Clean-Path -Path 'C:\ProgramData\Microsoft\Windows\WER\ReportQueue\*' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
-Clean-Path -Path 'C:\ProgramData\Microsoft\Windows\WER\Temp\*' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
-Clean-Path -Path 'C:\Windows\CCM\Temp\*' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
-Clean-Path -Path 'C:\Windows\SoftwareDistribution\Download\*' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+#Remove-Path -Path 'C:\Temp\*' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+Remove-Path -Path 'C:\Windows\Temp\*' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+Remove-Path -Path 'C:\Windows\*.dmp' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+Remove-Path -Path 'C:\Windows\Debug\*.log' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+Remove-Path -Path 'C:\Windows\security\logs\*.log' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+Remove-Path -Path 'C:\Windows\Logs\CBS\*.log' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+Remove-Path -Path 'C:\Windows\Logs\DISM\*.log' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+Remove-Path -Path 'C:\Windows\Logs\DPX\*.log' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+Remove-Path -Path 'C:\ProgramData\Microsoft\Windows\WER\ReportQueue\*' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+Remove-Path -Path 'C:\ProgramData\Microsoft\Windows\WER\Temp\*' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+Remove-Path -Path 'C:\Windows\CCM\Temp\*' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+Remove-Path -Path 'C:\Windows\SoftwareDistribution\Download\*' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
 
 If ($CleanUserData) {
     Write-Host "Cleaning temp directories across all user profiles" -ForegroundColor Yellow
-    Clean-Path -Path 'C:\Users\*\Documents\*.tmp' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
-    Clean-Path -Path 'C:\Users\*\Appdata\Local\Temp\*' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
-    Clean-Path -Path 'C:\Users\*\AppData\Local\Microsoft\Windows\Temporary Internet Files\*' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
-    Clean-Path -Path 'C:\Users\*\AppData\Roaming\Microsoft\Windows\Cookies\*' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+    Remove-Path -Path 'C:\Users\*\Documents\*.tmp' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+    Remove-Path -Path 'C:\Users\*\Appdata\Local\Temp\*' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+    Remove-Path -Path 'C:\Users\*\AppData\Local\Microsoft\Windows\Temporary Internet Files\*' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+    Remove-Path -Path 'C:\Users\*\AppData\Roaming\Microsoft\Windows\Cookies\*' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
 }
 
 
 ## Optional paths. Clean at your own risk.
-#Clean-Path -Path 'C:\ServiceProfiles\LocalService\AppData\Local\Temp\*' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
-#Clean-Path -Path 'C:\Windows\Prefetch' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
-#Clean-Path -Path 'C:\Users\*\AppData\Local\Microsoft\Windows\INetCache' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
-#Clean-Path -Path 'C:\Users\*\AppData\Roaming\Microsoft\Windows\Recent' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
-#Clean-Path -Path 'C:\AppData\Roaming\Microsoft\Windows\Recent' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
-#Clean-Path -Path 'C:\Users\*\AppData\Local\Google\Chrome\User Data\Default\Cache' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
-#Clean-Path -Path 'C:\Users\*\AppData\Local\Mozilla\Firefox\Profiles\*.default' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
-#Clean-Path -Path 'C:\Users\*\AppData\Roaming\Mozilla\Firefox\Profiles\*.default' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
-#Clean-Path -Path 'C:\ProgramData\Microsoft\Windows\WER\ReportArchive' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
-#Clean-Path -Path 'C:\ProgramData\Microsoft\Windows\WER\ReportQueue' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+#Remove-Path -Path 'C:\ServiceProfiles\LocalService\AppData\Local\Temp\*' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+#Remove-Path -Path 'C:\Windows\Prefetch' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+#Remove-Path -Path 'C:\Users\*\AppData\Local\Microsoft\Windows\INetCache' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+#Remove-Path -Path 'C:\Users\*\AppData\Roaming\Microsoft\Windows\Recent' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+#Remove-Path -Path 'C:\AppData\Roaming\Microsoft\Windows\Recent' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+#Remove-Path -Path 'C:\Users\*\AppData\Local\Google\Chrome\User Data\Default\Cache' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+#Remove-Path -Path 'C:\Users\*\AppData\Local\Mozilla\Firefox\Profiles\*.default' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+#Remove-Path -Path 'C:\Users\*\AppData\Roaming\Mozilla\Firefox\Profiles\*.default' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+#Remove-Path -Path 'C:\ProgramData\Microsoft\Windows\WER\ReportArchive' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
+#Remove-Path -Path 'C:\ProgramData\Microsoft\Windows\WER\ReportQueue' -Verbose:$EnableVerbose -ComputerOBJ $ComputerOBJ
 
 Write-Host "All temp paths have been cleaned" -ForegroundColor Green
 Write-Host ""
 
 #=================================================================================================
 
-Run-CleanMGR -ComputerOBJ $ComputerOBJ
+start-cleanmgr -ComputerOBJ $ComputerOBJ
 Write-Host ""
-#Erase-IExplorerHistory -ComputerOBJ $ComputerOBJ
+#Remove-IExplorerHistory -ComputerOBJ $ComputerOBJ
 Write-Host ""
-Run-DISM -ComputerOBJ $ComputerOBJ
+Start-DISM -ComputerOBJ $ComputerOBJ
 Write-Host ""
 
 # Optionally empty Recycle Bin
