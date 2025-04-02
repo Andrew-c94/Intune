@@ -462,8 +462,8 @@ try {
 
 # Start logging
 $Timestamp = Get-Date -Format "yyyy-MM-dd_THHmmss"
-Write-Host "Starting transcript logging to $LogPath\$($ComputerOBJ.ComputerName)-CleanupLogs_$Timestamp.txt"
-Start-Transcript -Path "$Logpath\$($ComputerOBJ.ComputerName)-CleanupLogs_$Timestamp.txt"
+Write-Host "Starting transcript logging to $LogPath\DiskCleanupLogs_$Timestamp-Remediation.txt"
+Start-Transcript -Path "$LogPath\DiskCleanupLogs_$Timestamp-Remediation.txt"
 [System.DateTime]::Now
 Write-Host ""
 
