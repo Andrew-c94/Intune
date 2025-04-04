@@ -14,6 +14,24 @@ The script is provided "AS IS" with no warranties.
 $logfile = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\LanmanWorkstationSettings-Detection.log"
 $ExpectedLanmanWorkstationSettings = @(
     @{
+    Key = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LanmanWorkstation"
+    Name = "AuditInsecureGuestLogon"
+    ExpectedValue = "1"
+    # Checks if the 'Audit insecure guest logon' setting is enabled
+    },
+    @{
+    Key = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LanmanWorkstation"
+    Name = "AuditServerDoesNotSupportEncryption"
+    ExpectedValue = "1"
+    # Checks if the 'Audit server does not support encryption' setting is enabled
+    },
+    @{
+    Key = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LanmanWorkstation"
+    Name = "AuditServerDoesNotSupportSigning"
+    ExpectedValue = "1"
+    # Checks if the 'Audit server does not support signing' setting is enabled
+    },
+    @{
     Key = "HKLM:\Software\Policies\Microsoft\Windows\NetworkProvider"
     Name = "EnableMailslots"
     ExpectedValue = "0"
@@ -21,9 +39,9 @@ $ExpectedLanmanWorkstationSettings = @(
     },
     @{
     Key = "HKLM:\Software\Policies\Microsoft\Windows\LanmanWorkstation"
-    Name = "RequireEncryption"
-    ExpectedValue = "0"
-    # Checks if the 'Require Encryption' setting is disabled
+    Name = "MaxSmb2Dialect"
+    ExpectedValue = "785"
+    # Checks if the 'Mandate the maximum version of SMB' setting is set to SMB 3.1.1
     },
     @{
     Key = "HKLM:\Software\Policies\Microsoft\Windows\LanmanWorkstation"
@@ -33,9 +51,9 @@ $ExpectedLanmanWorkstationSettings = @(
     },
     @{
     Key = "HKLM:\Software\Policies\Microsoft\Windows\LanmanWorkstation"
-    Name = "MaxSmb2Dialect"
-    ExpectedValue = "785"
-    # Checks if the 'Mandate the maximum version of SMB' setting is set to SMB 3.1.1
+    Name = "RequireEncryption"
+    ExpectedValue = "0"
+    # Checks if the 'Require Encryption' setting is disabled
     }
 )
 

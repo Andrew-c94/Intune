@@ -14,16 +14,40 @@ The script is provided "AS IS" with no warranties.
 $logfile = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\LanmanServerSettings-Detection.log"
 $ExpectedLanmanServerSettings = @(
     @{
+    Key = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LanmanServer"
+    Name = "AuditClientDoesNotSupportEncryption"
+    ExpectedValue = "1"
+    # Checks if the 'Audit client does not support encryption' setting is enabled
+    },
+    @{
+    Key = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LanmanServer"
+    Name = "AuditClientDoesNotSupportSigning"
+    ExpectedValue = "1"
+    # Checks if the 'Audit client does not support signing' setting is enabled
+    },
+    @{
+    Key = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LanmanServer"
+    Name = "AuditInsecureGuestLogon"
+    ExpectedValue = "1"
+    # Checks if the 'Audit insecure guest logon' setting is enabled
+    },
+    @{
     Key = "HKLM:\Software\Policies\Microsoft\Windows\LanmanServer"
     Name = "EnableAuthRateLimiter"
     ExpectedValue = "1"
     # Checks if the 'Enable authentication rate limiter' setting is enabled 
     },
     @{
+    Key = "HKLM:\Software\Policies\Microsoft\Windows\NetworkProvider"
+    Name = "EnableMailslots"
+    ExpectedValue = "0"
+    # Checks if the 'Enable remote mailslots' setting is disabled
+    },
+    @{
     Key = "HKLM:\Software\Policies\Microsoft\Windows\LanmanServer"
-    Name = "InvalidAuthenticationDelayTimeInMs"
-    ExpectedValue = "2000"
-    # Checks if the 'Set authentication rate limiter delay' setting is set to 2000 milliseconds
+    Name = "MaxSmb2Dialect"
+    ExpectedValue = "785"
+    # Checks if the 'Mandate the maximum version of SMB' setting is set to SMB 3.1.1
     },
     @{
     Key = "HKLM:\Software\Policies\Microsoft\Windows\LanmanServer"
@@ -33,9 +57,9 @@ $ExpectedLanmanServerSettings = @(
     },
     @{
     Key = "HKLM:\Software\Policies\Microsoft\Windows\LanmanServer"
-    Name = "MaxSmb2Dialect"
-    ExpectedValue = "785"
-    # Checks if the 'Mandate the maximum version of SMB' setting is set to SMB 3.1.1
+    Name = "InvalidAuthenticationDelayTimeInMs"
+    ExpectedValue = "2000"
+    # Checks if the 'Set authentication rate limiter delay' setting is set to 2000 milliseconds
     }
 )
 

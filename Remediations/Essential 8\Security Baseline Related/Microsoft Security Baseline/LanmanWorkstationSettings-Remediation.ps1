@@ -13,28 +13,46 @@ The script is provided "AS IS" with no warranties.
 $logfile = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\LanmanWorkstationSettings-Remediation.log"
 $RequiredLanmanWorkstationSettings = @(
     @{
+    Key = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LanmanWorkstation"
+    Name = "AuditInsecureGuestLogon"
+    RequiredValue = "1"
+    # Checks if the 'Audit insecure guest logon' setting is enabled
+    },
+    @{
+    Key = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LanmanWorkstation"
+    Name = "AuditServerDoesNotSupportEncryption"
+    RequiredValue = "1"
+    # Checks if the 'Audit server does not support encryption' setting is enabled
+    },
+    @{
+    Key = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LanmanWorkstation"
+    Name = "AuditServerDoesNotSupportSigning"
+    RequiredValue = "1"
+    # Checks if the 'Audit server does not support signing' setting is enabled
+    },
+    @{
     Key = "HKLM:\Software\Policies\Microsoft\Windows\NetworkProvider"
     Name = "EnableMailslots"
-    RequiredValue = ""
-    # Sets the 'Enable remote mailslots' setting to disabled
-    },
-    @{
-    Key = "HKLM:\Software\Policies\Microsoft\Windows\LanmanWorkstation"
-    Name = "RequireEncryption"
     RequiredValue = "0"
-    # Sets the 'Require Encryption' setting to disabled
-    },
-    @{
-    Key = "HKLM:\Software\Policies\Microsoft\Windows\LanmanWorkstation"
-    Name = "MinSmb2Dialect"
-    RequiredValue = "768"
-    # Sets the 'Mandate the minimum version of SMB' setting to SMB 3.0.0
+    # Checks if the 'Enable remote mailslots' setting is disabled
     },
     @{
     Key = "HKLM:\Software\Policies\Microsoft\Windows\LanmanWorkstation"
     Name = "MaxSmb2Dialect"
     RequiredValue = "785"
-    # Sets the 'Mandate the maximum version of SMB' setting to SMB 3.1.1
+    # Checks if the 'Mandate the maximum version of SMB' setting is set to SMB 3.1.1
+    },
+    @{
+    Key = "HKLM:\Software\Policies\Microsoft\Windows\LanmanWorkstation"
+    Name = "MinSmb2Dialect"
+    RequiredValue = "768"
+    # Checks if the 'Mandate the minimum version of SMB' setting is set to SMB 3.0.0
+    },
+    @{
+    Key = "HKLM:\Software\Policies\Microsoft\Windows\LanmanWorkstation"
+    Name = "RequireEncryption"
+    RequiredValue = "0"
+    # Checks if the 'Require Encryption' setting is disabled
     }
 )
 $ErrorActionPreference = "Stop"
@@ -71,7 +89,7 @@ Try{
         $Value = Get-ItemProperty -Path $Key -Name $Name -ErrorAction SilentlyContinue
         if ($Value.$Name -eq $RequiredValue)
         {
-            WriteLog "Registry setting $Name is already set to $RequiredValue as expected."
+            WriteLog "Registry setting $Name is already set to $RequiredValue as Required."
         }
         else
         {

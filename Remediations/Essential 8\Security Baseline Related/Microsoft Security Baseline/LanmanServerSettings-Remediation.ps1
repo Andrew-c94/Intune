@@ -13,16 +13,40 @@ The script is provided "AS IS" with no warranties.
 $logfile = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\LanmanServerSettings-Remediation.log"
 $RequiredLanmanServerSettings = @(
     @{
+    Key = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LanmanServer"
+    Name = "AuditClientDoesNotSupportEncryption"
+    RequiredValue = "1"
+    # Sets the 'Audit client does not support encryption' setting to enabled
+    },
+    @{
+    Key = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LanmanServer"
+    Name = "AuditClientDoesNotSupportSigning"
+    RequiredValue = "1"
+    # Sets the 'Audit client does not support signing' setting to enabled
+    },
+    @{
+    Key = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LanmanServer"
+    Name = "AuditInsecureGuestLogon"
+    RequiredValue = "1"
+    # Sets the 'Audit insecure guest logon' setting to enabled
+    },
+    @{
     Key = "HKLM:\Software\Policies\Microsoft\Windows\LanmanServer"
     Name = "EnableAuthRateLimiter"
     RequiredValue = "1"
     # Sets the 'Enable authentication rate limiter' setting to enabled 
     },
     @{
+    Key = "HKLM:\Software\Policies\Microsoft\Windows\NetworkProvider"
+    Name = "EnableMailslots"
+    RequiredValue = "0"
+    # Sets the 'Enable remote mailslots' setting to disabled
+    },
+    @{
     Key = "HKLM:\Software\Policies\Microsoft\Windows\LanmanServer"
-    Name = "InvalidAuthenticationDelayTimeInMs"
-    RequiredValue = "2000"
-    # Sets the 'Set authentication rate limiter delay' setting to 2000 milliseconds
+    Name = "MaxSmb2Dialect"
+    RequiredValue = "785"
+    # Sets the 'Mandate the maximum version of SMB' setting to SMB 3.1.1
     },
     @{
     Key = "HKLM:\Software\Policies\Microsoft\Windows\LanmanServer"
@@ -32,9 +56,9 @@ $RequiredLanmanServerSettings = @(
     },
     @{
     Key = "HKLM:\Software\Policies\Microsoft\Windows\LanmanServer"
-    Name = "MaxSmb2Dialect"
-    RequiredValue = "785"
-    # Sets the 'Mandate the maximum version of SMB' setting to SMB 3.1.1
+    Name = "InvalidAuthenticationDelayTimeInMs"
+    RequiredValue = "2000"
+    # Sets the 'Set authentication rate limiter delay' setting to 2000 milliseconds
     }
 )
 $ErrorActionPreference = "Stop"
