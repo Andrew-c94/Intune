@@ -38,7 +38,7 @@ Param ([string]$LogString)
 $DateTime = "[{0:dd/MM/yy} {0:HH:mm:ss}]" -f (Get-Date)
 $LogMessage = "$Datetime $LogString"
 
-write-host $LogMessage
+Write-Host $LogMessage
 }
 
 #------------------------------- Check Feature Status -----------------------------------#
@@ -54,11 +54,11 @@ foreach ($check in $OptionalFeaturechecks) {
       $CheckExpectedValue = $Check.ExpectedValue
     
     if ($CheckFeatureState -eq $CheckExpectedValue) {
-            Write-Host "$CheckFeatureName is $CheckExpectedValue as required."
+            WriteLog "$CheckFeatureName is $CheckExpectedValue as required."
             $FeatureActive = $false
         }
         else {
-        Write-Host "Check failed, $CheckFeatureName is $CheckFeatureState, continuing with remediation."
+        WriteLog "Check failed, $CheckFeatureName is $CheckFeatureState, continuing with remediation."
         Stop-Transcript
         Exit 1
         }
@@ -67,7 +67,7 @@ foreach ($check in $OptionalFeaturechecks) {
 
 # Exit script without requiring Remediation if $FeatureActive is still $false
 if ($FeatureActive -eq $false) {
-    Write-Host "All Optional Features are disabled, exiting without further action."
+    WriteLog "All Optional Features are disabled, exiting without further action."
     Stop-Transcript
     Exit 0
     }

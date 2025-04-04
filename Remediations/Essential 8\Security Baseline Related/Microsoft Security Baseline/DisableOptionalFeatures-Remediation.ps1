@@ -38,7 +38,7 @@ Param ([string]$LogString)
 $DateTime = "[{0:dd/MM/yy} {0:HH:mm:ss}]" -f (Get-Date)
 $LogMessage = "$Datetime $LogString"
 
-write-host $LogMessage
+Write-Host $LogMessage
 }
 
 #--------------------------------- Disables Feature --------------------------------------#
@@ -53,10 +53,10 @@ foreach ($check in $OptionalFeaturechecks) {
   try {
   if ($CheckFeatureState -ne $Check.ExpectedValue) {
   Disable-WindowsOptionalFeature -Online -FeatureName $CheckFeatureName -NoRestart
-  Write-Host "$CheckFeatureName has been disabled successfully."
+  WriteLog "$CheckFeatureName has been disabled successfully."
   }
   else {
-  Write-Host "$CheckFeatureName is already disabled."
+  WriteLog "$CheckFeatureName is already disabled."
   }
  }
   catch {
