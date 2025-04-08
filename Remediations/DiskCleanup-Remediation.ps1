@@ -276,7 +276,8 @@ Function start-cleanmgr {
                 }
                 # Convert the Sageset number previously defined and run the Disk Cleanup process with configured parameters.
                 $Parameters = "/sagerun:$([string]([int]$SageSet.Substring($SageSet.Length - 4)))"
-                Start-Process -Wait "$env:SystemRoot\System32\cleanmgr.exe" -ArgumentList $Parameters -WindowStyle Hidden
+                Start-Process "$env:SystemRoot\System32\cleanmgr.exe" -ArgumentList $Parameters -WindowStyle Hidden -PassThru
+                Get-process -Name cleanmgr -ErrorAction SilentlyContinue | Wait-Process -Timeout 2700
                 # Set Sageset99/Stateflag0099 reg keys back to 1 for a blank slate.
                 foreach ($VC in $VolCaches) {
                     New-ItemProperty -Path "$($VC.PSPath)" -Name $StateFlags -Value 1 -Type DWORD -Force | Out-Null
@@ -310,15 +311,13 @@ Function start-cleanmgr {
             }
             # Convert the Sageset number previously defined and run the Disk Cleanup process with configured parameters.
             $Parameters = "/sagerun:$([string]([int]$SageSet.Substring($SageSet.Length - 4)))"
-            Start-Process -Wait "$env:SystemRoot\System32\cleanmgr.exe" -ArgumentList $Parameters -WindowStyle Hidden
+            Start-Process "$env:SystemRoot\System32\cleanmgr.exe" -ArgumentList $Parameters -WindowStyle Hidden -PassThru
+            Get-process -Name cleanmgr -ErrorAction SilentlyContinue | Wait-Process -Timeout 2700
             # Set Sageset99/Stateflag0099 reg keys back to 1 for a blank slate.
             foreach ($VC in $VolCaches) {
                 New-ItemProperty -Path "$($VC.PSPath)" -Name $StateFlags -Value 1 -Type DWORD -Force | Out-Null
             }
             $ErrorActionPreference = 'SilentlyContinue'
-            ForEach ($Location in $Locations) {
-                Write-Host "`t...Cleaning $Location"
-            }
             Write-Host "Windows Disk Cleanup has been run successfully." -ForegroundColor Green
         } Catch {
             Write-Host "Cleanmgr is not installed!" -ForegroundColor Red
