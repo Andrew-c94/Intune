@@ -42,7 +42,7 @@ $LogMessage = "$Datetime $LogString"
 Write-Host $LogMessage
 }
 
-#------------------------- Check LanmanWorkstation Settings ------------------------------#
+#------------------------- Check OLE Activation Settings ------------------------------#
 
 $ValueMissing = $null
 
@@ -73,4 +73,5 @@ if ($ValueMissing -eq $false) {
     WriteLog "All OLE settings are set correctly, exiting without further Action"
     Stop-Transcript
     Exit 0
+
     }
