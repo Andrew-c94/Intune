@@ -10,33 +10,17 @@ If old settings are found, the script exits with an exit code of 1 to trigger In
 
 #------------------------------------ Set Variables -------------------------------------#
 
-$logfile = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\NAbleUpdateSettings-Detection.log"
-$Key = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate"
+$Key = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
 
-#------------------------------------ Start log file ------------------------------------#
-
-Start-Transcript -Path $logfile
-function WriteLog
-{
-Param ([string]$LogString)
-
-$DateTime = "[{0:dd/MM/yy} {0:HH:mm:ss}]" -f (Get-Date)
-$LogMessage = "$Datetime $LogString"
-
-write-host $LogMessage
-}
-
-#---------------------------- Check Windows Update Settings -------------------------------#
+#---------------------------- Check Windows Update Settings -----------------------------#
 
 if (Test-Path $Key)
     {
-        WriteLog "Registry key $Key still exists, continuing to Remediation."
-        Stop-Transcript
-        #Exit 1
+        Write-Host "Registry key $Key still exists, continuing to Remediation."
+        Exit 1
     }
 else {
-WriteLog "Registry key $key has already been removed, exiting without further action."
+Write-Host "Registry key $key has already been removed, exiting without further action."
+Exit 0
     }
 
-Stop-Transcript
-Exit 0
