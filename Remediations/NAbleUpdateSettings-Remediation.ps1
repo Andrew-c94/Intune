@@ -10,18 +10,20 @@ The script is provided "AS IS" with no warranties.
 
 #------------------------------------ Set Variables -------------------------------------#
 
-$Key = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate"
+$KeytoCheck = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
+$KeytoDelete = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate"
 $ErrorActionPreference = "Stop"
 
 #---------------------------- Remove Windpws Update Settings -------------------------------#
 
 Try{
-    if (Test-Path $Key)
+    if (Test-Path $KeytoCheck)
     {
-    Write-Host "Registry key $Key still exists, removing."
+    Write-Host "Registry key $KeytoCheck still exists, removing."
+    Remove-Item $KeytoDelete -Force -Recurse
     }
     else {
-    Write-Host "Registry key $key has already been removed, exiting without further action."
+    Write-Host "Registry key $KeytoCheck has already been removed, exiting without further action."
     }
 }
 catch {
